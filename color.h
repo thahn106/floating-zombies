@@ -2,20 +2,19 @@
 #define __al_included_allegro5_color_h
 
 #ifdef __cplusplus
-   extern "C" {
+extern "C" {
 #endif
 
 /* Type: ALLEGRO_COLOR
  */
 typedef struct ALLEGRO_COLOR ALLEGRO_COLOR;
 
-struct ALLEGRO_COLOR
-{
-   float r, g, b, a;
+struct ALLEGRO_COLOR {
+  float r, g, b, a;
 };
 
 #ifdef __cplusplus
-   }
+}
 #endif
 
 #endif
