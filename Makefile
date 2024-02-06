@@ -13,8 +13,8 @@ CXXFLAGS = $(CXXINCS)
 RM = rm -f
 
 
-LDFLAGS=$(shell pkg-config allegro-5 allegro_font-5 --libs --cflags)
-
+LDFLAGS=$(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 --libs --cflags)
+OSXINC=/opt/homebrew/Cellar/allegro/5.2.9.1/include
 
 .PHONY: all all-before all-after clean clean-custom
 
@@ -24,7 +24,7 @@ test:
 	@echo $(CXXINCS)
 
 osx:
-	$(CPP) MovableTest.cpp -o "Explosions" $(LDFLAGS)
+	g++ MovableTest.cpp -o "testbin" $(LDFLAGS)
 
 
 clean: clean-custom

@@ -47,7 +47,11 @@ int main() {
   // acquire_screen();
   ALLEGRO_BITMAP *buffer = al_create_bitmap(800, 600);
 
+  // initialize font
   ALLEGRO_FONT *font = al_create_builtin_font();
+
+  // initialize primitives
+  al_init_primitives_addon();
 
   ALLEGRO_BITMAP *block = al_load_bitmap("Block.bmp");
   ALLEGRO_SAMPLE *gunshot = al_load_sample("gun.wav");
@@ -298,14 +302,17 @@ int main() {
       powerUp = false;
       shootRate = 5;
     }
-    rectfill(buffer, 110, 10, c.health * 3 + 110, 15, al_map_rgb(255, 0, 0));
+    al_draw_filled_rectangle(110, 10, c.health * 3 + 110, 15,
+                             al_map_rgb(255, 0, 0));
+
     if (key[ALLEGRO_KEY_B]) powerUp = true;
-    textprintf_ex(buffer, font, 10, 10, al_map_rgb(0, 0, 0), -1, "Score: %d",
-                  score);
-    if (powerUp)
-      textprintf_ex(buffer, font, 350, 50,
-                    al_map_rgb(rand() % 256, rand() % 256, rand() % 256), -1,
-                    "POWERUP!!!");
+    // TODO: Fix and reenable
+    // textprintf_ex(buffer, font, 10, 10, al_map_rgb(0, 0, 0), -1, "Score: %d",
+    //               score); //
+    // if (powerUp)
+    //   textprintf_ex(buffer, font, 350, 50,
+    //                 al_map_rgb(rand() % 256, rand() % 256, rand() % 256), -1,
+    //                 "POWERUP!!!");
     if (muzzaFuzza == 1) {
       al_draw_bitmap(al_load_bitmap("muzzafuzzab.bmp"), c.locationX - 23,
                      c.locationY + 25, 0);
