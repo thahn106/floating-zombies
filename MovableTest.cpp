@@ -16,10 +16,20 @@ void setImmovables(Immovable *immove[immoveNum], ALLEGRO_BITMAP *block,
                    ALLEGRO_BITMAP *buf);
 void setEnemies(Enemy *enemies[50], ALLEGRO_BITMAP *, Player *);
 
+void update_key(ALLEGRO_KEYBOARD_STATE &key, bool *keyboard_state) {
+  al_get_keyboard_state(&key);
+  for (int i = 0; i < ALLEGRO_KEY_MAX; i++) {
+    keyboard_state[i] = al_key_down(&key, i);
+  }
+}
+
 int main() {
   srand(time(NULL));
   allegro_init();
-  install_keyboard();
+  al_install_keyboard();
+  ALLEGRO_KEYBOARD_STATE keyboard_state;
+  bool key[ALLEGRO_KEY_MAX];
+  update_key(keyboard_state, key);
   install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
   set_color_depth(16);
   set_gfx_mode(GFX_AUTODETECT, 800, 600, 0, 0);
@@ -33,7 +43,7 @@ int main() {
   SAMPLE *attack = load_sample("zattack.wav");
   Background b(0, 0, 800, 600, al_load_bitmap("SuperMarioBrosBackground.bmp"),
                buffer);
-  Player c(150, 560, 50, 64, initialVel, initialVel, buffer);
+  Player c(150, 560, 50, 64, initialVel, initialVel, buffer, key);
   Immovable *immove[immoveNum];
   Movable *bullets[maxBullets];
   int bulletNum = 0, zombieKills = 0, score = 0, powerUpTime = 0,
@@ -56,13 +66,13 @@ int main() {
 
   al_draw_bitmap(al_load_bitmap("TitleScreen.bmp"), 0, 0, 0);
 
-  while (!key[KEY_SPACE]) {
+  while (!key[ALLEGRO_KEY_SPACE]) {
     al_draw_bitmap(buffer, 0, 0, 0);
   }
   play_sample(music, 55, 128, 1000, 1);
-  while (!key[KEY_ESC]) {
+  while (!key[ALLEGRO_KEY_ESC]) {
     // Bullets
-    if (key[KEY_SPACE] && !bulletDelay) {
+    if (key[ALLEGRO_KEY_SPACE] && !bulletDelay) {
       for (int i = bulletNum; i > 0; i--) {
         bullets[i] = bullets[i - 1];
       }
@@ -232,10 +242,10 @@ int main() {
       }
     }
     if (powerUp) {
-      if (key[KEY_W]) c.yVel -= 3;
-      if (key[KEY_D]) c.xVel += 3;
-      if (key[KEY_A]) c.xVel -= 3;
-      if (key[KEY_S]) c.yVel += 3;
+      if (key[ALLEGRO_KEY_W]) c.yVel -= 3;
+      if (key[ALLEGRO_KEY_D]) c.xVel += 3;
+      if (key[ALLEGRO_KEY_A]) c.xVel -= 3;
+      if (key[ALLEGRO_KEY_S]) c.yVel += 3;
       shootRate = 0;
       powerUpTime++;
     }
@@ -248,16 +258,16 @@ int main() {
       play_sample(music, 75, 128, 1000, 1);
     }
 
-    if (key[KEY_P]) zombiePowerUp = true;
+    if (key[ALLEGRO_KEY_P]) zombiePowerUp = true;
     if (zombiePowerUp) {
-      if (key[KEY_I]) {
+      if (key[ALLEGRO_KEY_I]) {
         for (int i = 0; i < 50; i++) {
           if (enemies[i] != NULL) {
             enemies[i]->yVel -= 2;
           }
         }
       }
-      if (key[KEY_K]) {
+      if (key[ALLEGRO_KEY_K]) {
         for (int i = 0; i < 50; i++) {
           if (enemies[i] != NULL) {
             enemies[i]->yVel += 5;
@@ -271,7 +281,7 @@ int main() {
       shootRate = 5;
     }
     rectfill(buffer, 110, 10, c.health * 3 + 110, 15, al_map_rgb(255, 0, 0));
-    if (key[KEY_B]) powerUp = true;
+    if (key[ALLEGRO_KEY_B]) powerUp = true;
     textprintf_ex(buffer, font, 10, 10, al_map_rgb(0, 0, 0), -1, "Score: %d",
                   score);
     if (powerUp)

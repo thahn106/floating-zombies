@@ -15,13 +15,14 @@ to jump.
 class Player : public Creature {
  public:
   Player(int x, int y, int x2, int y2, int velX, int velY,
-         ALLEGRO_BITMAP *buffer);
+         ALLEGRO_BITMAP *buffer, bool *key);
   void move();
   void xvelocity();
   void yvelocity();
   void hit();
   void checkPlatform(int, int, int, int);
   void makeBullet(int xLoc, int yLoc, int direction);
+  bool *key;
   int maxxVel;  // DO NOT CHANGE
   int picCount;
   int jumpCount;
@@ -38,7 +39,7 @@ class Player : public Creature {
 };
 
 Player::Player(int x, int y, int x2, int y2, int velX, int velY,
-               ALLEGRO_BITMAP *buffer)
+               ALLEGRO_BITMAP *buffer, bool *key)
     : Creature(x, y, x2, y2, velX, velY, buffer, al_load_bitmap("idle1.bmp")) {
   maxxVel = 13;
   picCount = 0;
@@ -99,27 +100,27 @@ void Player::move() {
   } else {
     jumpCount = 0;
   }
-  if (key[KEY_UP]) {
+  if (key[ALLEGRO_KEY_UP]) {
     if (direction == 1) pic = pics[jumpCount % 4 + 24];
     if (direction == 2) pic = pics[jumpCount % 4 + 7];
   }
-  if ((key[KEY_RIGHT]) && (!key[KEY_UP])) {
+  if ((key[ALLEGRO_KEY_RIGHT]) && (!key[ALLEGRO_KEY_UP])) {
     pic = pics[walkCount % 6 + 11];
     if (slowWalk % 2 == 0) walkCount++;
     slowWalk++;
   }
-  if ((key[KEY_LEFT]) && (!key[KEY_UP])) {
+  if ((key[ALLEGRO_KEY_LEFT]) && (!key[ALLEGRO_KEY_UP])) {
     pic = pics[walkCount % 6 + 28];
     if (slowWalk % 2 == 0) walkCount++;
     slowWalk++;
   }
-  if ((key[KEY_DOWN]) && (!key[KEY_LEFT]) && (!key[KEY_RIGHT]) &&
-      (!key[KEY_UP])) {
+  if ((key[ALLEGRO_KEY_DOWN]) && (!key[ALLEGRO_KEY_LEFT]) &&
+      (!key[ALLEGRO_KEY_RIGHT]) && (!key[ALLEGRO_KEY_UP])) {
     if (direction == 2) pic = pics[3];
     if (direction == 1) pic = pics[20];
   }
-  if ((!key[KEY_LEFT]) && (!key[KEY_RIGHT]) && (!key[KEY_UP]) &&
-      (!key[KEY_DOWN])) {
+  if ((!key[ALLEGRO_KEY_LEFT]) && (!key[ALLEGRO_KEY_RIGHT]) &&
+      (!key[ALLEGRO_KEY_UP]) && (!key[ALLEGRO_KEY_DOWN])) {
     if (direction == 1) pic = pics[21 + idleCount % 3];
     if (direction == 2) pic = pics[4 + idleCount % 3];
     if (idleRest % 4 == 0) idleCount++;
@@ -141,7 +142,7 @@ void Player::move() {
   return;
 }
 void Player::yvelocity() {
-  if (key[KEY_UP]) {
+  if (key[ALLEGRO_KEY_UP]) {
     if (jumping == false) {
       jumping = true;
       yVel = -15;
@@ -153,7 +154,7 @@ void Player::yvelocity() {
   }
 }
 void Player::xvelocity() {
-  if (key[KEY_RIGHT]) {
+  if (key[ALLEGRO_KEY_RIGHT]) {
     if (xVel < maxxVel) {
       xVel++;
     }
@@ -164,7 +165,7 @@ void Player::xvelocity() {
       xVel--;
     }
   }
-  if (key[KEY_LEFT]) {
+  if (key[ALLEGRO_KEY_LEFT]) {
     if (xVel > -1 * maxxVel) {
       xVel--;
     }
