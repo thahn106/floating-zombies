@@ -25,22 +25,37 @@ void update_key(ALLEGRO_KEYBOARD_STATE &key, bool *keyboard_state) {
 
 int main() {
   srand(time(NULL));
-  allegro_init();
+
+  // initialize allegro
+  al_init();
+
+  // initialize keyboard
   al_install_keyboard();
   ALLEGRO_KEYBOARD_STATE keyboard_state;
   bool key[ALLEGRO_KEY_MAX];
   update_key(keyboard_state, key);
-  install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
-  set_color_depth(16);
-  set_gfx_mode(GFX_AUTODETECT, 800, 600, 0, 0);
-  acquire_screen();
-  ALLEGRO_BITMAP *buffer = create_bitmap(800, 600);
+
+  // initialize audio
+  al_install_audio();
+  al_init_acodec_addon();
+  // install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
+
+  // initialize display
+  ALLEGRO_DISPLAY *disp = al_create_display(800, 600);
+  // set_color_depth(16);
+  // set_gfx_mode(GFX_AUTODETECT, 800, 600, 0, 0);
+  // acquire_screen();
+  ALLEGRO_BITMAP *buffer = al_create_bitmap(800, 600);
+
+  ALLEGRO_FONT *font = al_create_builtin_font();
+
   ALLEGRO_BITMAP *block = al_load_bitmap("Block.bmp");
-  SAMPLE *gunshot = load_sample("gun.wav");
-  SAMPLE *music = load_sample("UntoldStory.wav");
-  SAMPLE *ivmusic = load_sample("starman.wav");
-  SAMPLE *death = load_sample("zdeath.wav");
-  SAMPLE *attack = load_sample("zattack.wav");
+  ALLEGRO_SAMPLE *gunshot = al_load_sample("gun.wav");
+  ALLEGRO_SAMPLE *music = al_load_sample("UntoldStory.wav");
+  ALLEGRO_SAMPLE *ivmusic = al_load_sample("starman.wav");
+  ALLEGRO_SAMPLE *death = al_load_sample("zdeath.wav");
+  ALLEGRO_SAMPLE *attack = al_load_sample("zattack.wav");
+
   Background b(0, 0, 800, 600, al_load_bitmap("SuperMarioBrosBackground.bmp"),
                buffer);
   Player c(150, 560, 50, 64, initialVel, initialVel, buffer, key);
@@ -69,8 +84,10 @@ int main() {
   while (!key[ALLEGRO_KEY_SPACE]) {
     al_draw_bitmap(buffer, 0, 0, 0);
   }
-  play_sample(music, 55, 128, 1000, 1);
-  while (!key[ALLEGRO_KEY_ESC]) {
+  // play_sample(music, 55, 128, 1000, 1);
+  while (!key[ALLEGRO_KEY_ESCAPE]) {
+    update_key(keyboard_state, key);
+
     // Bullets
     if (key[ALLEGRO_KEY_SPACE] && !bulletDelay) {
       for (int i = bulletNum; i > 0; i--) {
@@ -94,7 +111,7 @@ int main() {
       }
       bulletNum++;
       bulletDelay = true;
-      if (!powerUp) play_sample(gunshot, 35, 128, 1000, 0);
+      // if (!powerUp) play_sample(gunshot, 35, 128, 1000, 0);
     }
     if (bulletDelay) {
       x++;
@@ -145,7 +162,7 @@ int main() {
         if (enemies[i]->checkCollision(c.locationX, c.locationY, c.wid,
                                        c.hgt) == 1) {
           c.health -= 1;
-          // play_sample(attack, 75, 128, 1000, 0);
+          // al_load_sample(attack, 75, 128, 1000, 0);
         }
       }
     }
@@ -159,8 +176,8 @@ int main() {
         powerUp = false;
         shootRate = 5;
         powerUpTime = 0;
-        stop_sample(ivmusic);
-        play_sample(music, 75, 128, 1000, 1);
+        // stop_sample(ivmusic);
+        // play_sample(music, 75, 128, 1000, 1);
       }
     }
 
@@ -200,7 +217,7 @@ int main() {
 
     // c.drawHitBox();
 
-    clear_to_color(buffer, al_map_rgb(5, 0, 0));
+    // clear_to_color(buffer, al_map_rgb(5, 0, 0));
     b.display();
     c.display();
     for (int i = 0; i < immoveNum; i++)
@@ -249,14 +266,15 @@ int main() {
       shootRate = 0;
       powerUpTime++;
     }
-    if (powerUpTime == 1) {
-      play_sample(ivmusic, 128, 128, 1000, 0);
-      stop_sample(music);
-    }
-    if (powerUpTime == 666) {
-      stop_sample(ivmusic);
-      play_sample(music, 75, 128, 1000, 1);
-    }
+    // TODO : Fix and reenable
+    // if (powerUpTime == 1) {
+    //   play_sample(ivmusic, 128, 128, 1000, 0);
+    //   stop_sample(music);
+    // }
+    // if (powerUpTime == 666) {
+    //   stop_sample(ivmusic);
+    //   play_sample(music, 75, 128, 1000, 1);
+    // }
 
     if (key[ALLEGRO_KEY_P]) zombiePowerUp = true;
     if (zombiePowerUp) {
@@ -299,13 +317,14 @@ int main() {
       muzzaFuzza = 0;
     }
     al_draw_bitmap(buffer, 0, 0, 0);
-    clear_keybuf();
-    rest(30);
+    // clear_keybuf();
+    al_rest(30);  // TODO: Implement a better way to handle frame rate
   }
-  release_screen();
+  al_destroy_display(disp);
+  // release_screen();
   return 0;
 }
-END_OF_MAIN();
+// END_OF_MAIN();
 
 void setImmovables(Immovable *immove[immoveNum], ALLEGRO_BITMAP *block,
                    ALLEGRO_BITMAP *buf) {

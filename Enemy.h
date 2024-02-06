@@ -97,8 +97,10 @@ void Enemy::yVelocity() {
   if (yVel == 0 || jumping) jumping = false;
 }
 void Enemy::displayName() {
-  textout_ex(buf, font, "Enemah!", locationX, locationY - 10,
-             al_map_rgb(0, 0, 255), -1);
+  // textout_ex(buf, font, "Enemah!", locationX, locationY - 10,
+  //            al_map_rgb(0, 0, 255), -1);
+  al_draw_text(font, al_map_rgb(0, 0, 255), locationX, locationY - 10,
+               ALLEGRO_ALIGN_CENTRE, "Enemah!");
 }
 void Enemy::checkPlatform(int b2_x, int b2_y, int b2_w, int b2_h) {
   if ((locationY + hgt) < floorHeight &&
