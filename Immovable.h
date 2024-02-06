@@ -5,8 +5,8 @@
 
 class Immovable {
  public:
-  Immovable(int xPos, int yPos, int xPos1, int yPos1, BITMAP *picture,
-            BITMAP *buffer);
+  Immovable(int xPos, int yPos, int xPos1, int yPos1, ALLEGRO_BITMAP *picture,
+            ALLEGRO_BITMAP *buffer);
   void display();
   void drawHitBox();
   void move(int x);
@@ -17,12 +17,12 @@ class Immovable {
   int hgt;
 
  private:
-  BITMAP *pic;
-  BITMAP *buf;
+  ALLEGRO_BITMAP *pic;
+  ALLEGRO_BITMAP *buf;
 };
 // constructor
-Immovable::Immovable(int xPos, int yPos, int xPos1, int yPos1, BITMAP *picture,
-                     BITMAP *buffer) {
+Immovable::Immovable(int xPos, int yPos, int xPos1, int yPos1,
+                     ALLEGRO_BITMAP *picture, ALLEGRO_BITMAP *buffer) {
   locationX = xPos;  // top left corner
   locationY = yPos;
   wid = xPos1;  // width
@@ -31,10 +31,10 @@ Immovable::Immovable(int xPos, int yPos, int xPos1, int yPos1, BITMAP *picture,
   buf = buffer;
 }
 
-void Immovable::display() { draw_sprite(buf, pic, locationX, locationY); }
+void Immovable::display() { al_draw_bitmap(pic, locationX, locationY, 0); }
 void Immovable::drawHitBox() {
-  rect(buf, locationX, locationY, wid + locationX, hgt + locationY,
-       makecol(255, 0, 255));
+  al_draw_rectangle(locationX, locationY, wid + locationX, hgt + locationY,
+                    al_map_rgb(255, 0, 255), 2);
 }
 
 int Immovable::checkCollision(int x, int y, int w, int h) {

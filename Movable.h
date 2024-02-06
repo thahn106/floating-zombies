@@ -5,14 +5,14 @@ Extended by Creatures and Bullets.
 */
 #ifndef ALLEGRO
 #define ALLEGRO 1
-#include <allegro.h>
+#include "allegro.h"
 #endif
 class Movable {
  public:
   Movable(int x, int y, int width, int height, int velX, int velY,
-          BITMAP *buffer, BITMAP *picture);
+          ALLEGRO_BITMAP *buffer, ALLEGRO_BITMAP *picture);
   Movable(int x, int y, int width, int height, int velX, int velY,
-          BITMAP *buffer, BITMAP *picture, int dir);
+          ALLEGRO_BITMAP *buffer, ALLEGRO_BITMAP *picture, int dir);
   void move(int x, int y);  // Virtual
   void setLocX(int x);
   void changeLocX(int x);
@@ -32,12 +32,12 @@ class Movable {
   int xVel;
   int yVel;
   int direction;
-  BITMAP *pic;
-  BITMAP *buf;
+  ALLEGRO_BITMAP *pic;
+  ALLEGRO_BITMAP *buf;
 };
 
 Movable::Movable(int x, int y, int width, int height, int velX, int velY,
-                 BITMAP *buffer, BITMAP *picture) {
+                 ALLEGRO_BITMAP *buffer, ALLEGRO_BITMAP *picture) {
   locationX = x;
   locationY = y;
   wid = width;
@@ -51,7 +51,7 @@ Movable::Movable(int x, int y, int width, int height, int velX, int velY,
 }
 
 Movable::Movable(int x, int y, int width, int height, int velX, int velY,
-                 BITMAP *buffer, BITMAP *picture, int dir) {
+                 ALLEGRO_BITMAP *buffer, ALLEGRO_BITMAP *picture, int dir) {
   locationX = x;
   locationY = y;
   wid = width;
@@ -67,7 +67,7 @@ Movable::Movable(int x, int y, int width, int height, int velX, int velY,
 /*
 Displays the object on the screen.
 */
-void Movable::display() { draw_sprite(buf, pic, locationX, locationY); }
+void Movable::display() { al_draw_bitmap(pic, locationX, locationY, 0); }
 
 /*
 Moves the object on the screen.
@@ -94,6 +94,6 @@ int Movable::checkCollision(int x, int y, int w, int h) {
 }
 
 void Movable::drawHitBox() {
-  rect(buf, locationX, locationY, locationX + wid, locationY + hgt,
-       makecol(0, 0, 0));
+  al_draw_rectangle(locationX, locationY, locationX + wid, locationY + hgt,
+                    al_map_rgb(0, 0, 0), 2);
 }

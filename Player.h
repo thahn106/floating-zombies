@@ -5,10 +5,7 @@ The player will have a bit of intertia when it moves and it will use a quadratic
 to jump.
 */
 
-#ifndef ALLEGRO
-#define ALLEGRO 1
-#include "allegro5/allegro.h"
-#endif
+#include "allegro.h"
 
 #ifndef CREATURE
 #define CREATURE 1
@@ -17,7 +14,8 @@ to jump.
 
 class Player : public Creature {
  public:
-  Player(int x, int y, int x2, int y2, int velX, int velY, BITMAP *buffer);
+  Player(int x, int y, int x2, int y2, int velX, int velY,
+         ALLEGRO_BITMAP *buffer);
   void move();
   void xvelocity();
   void yvelocity();
@@ -36,12 +34,12 @@ class Player : public Creature {
   bool resetFloorHeight;
 
  private:
-  BITMAP *pics[34];
+  ALLEGRO_BITMAP *pics[34];
 };
 
-Player::Player(int x, int y, int x2, int y2, int velX, int velY, BITMAP *buffer)
-    : Creature(x, y, x2, y2, velX, velY, buffer,
-               load_bitmap("idle1.bmp", NULL)) {
+Player::Player(int x, int y, int x2, int y2, int velX, int velY,
+               ALLEGRO_BITMAP *buffer)
+    : Creature(x, y, x2, y2, velX, velY, buffer, al_load_bitmap("idle1.bmp")) {
   maxxVel = 13;
   picCount = 0;
   jumpCount = 0;
@@ -52,40 +50,40 @@ Player::Player(int x, int y, int x2, int y2, int velX, int velY, BITMAP *buffer)
   slowWalk = 0;
   floorHeight = 560;
   resetFloorHeight = true;
-  pics[0] = load_bitmap("crouch1.bmp", NULL);
-  pics[1] = load_bitmap("crouch2.bmp", NULL);
-  pics[2] = load_bitmap("crouch3.bmp", NULL);
-  pics[3] = load_bitmap("crouch4.bmp", NULL);
-  pics[4] = load_bitmap("idle1.bmp", NULL);
-  pics[5] = load_bitmap("idle2.bmp", NULL);
-  pics[6] = load_bitmap("idle3.bmp", NULL);
-  pics[7] = load_bitmap("jump1.bmp", NULL);
-  pics[8] = load_bitmap("jump2.bmp", NULL);
-  pics[9] = load_bitmap("jump3.bmp", NULL);
-  pics[10] = load_bitmap("jump4.bmp", NULL);
-  pics[11] = load_bitmap("run6.bmp", NULL);
-  pics[12] = load_bitmap("run5.bmp", NULL);
-  pics[13] = load_bitmap("run4.bmp", NULL);
-  pics[14] = load_bitmap("run3.bmp", NULL);
-  pics[15] = load_bitmap("run2.bmp", NULL);
-  pics[16] = load_bitmap("run1.bmp", NULL);
-  pics[17] = load_bitmap("crouch1b.bmp", NULL);
-  pics[18] = load_bitmap("crouch2b.bmp", NULL);
-  pics[19] = load_bitmap("crouch3b.bmp", NULL);
-  pics[20] = load_bitmap("crouch4b.bmp", NULL);
-  pics[21] = load_bitmap("idle1b.bmp", NULL);
-  pics[22] = load_bitmap("idle2b.bmp", NULL);
-  pics[23] = load_bitmap("idle3b.bmp", NULL);
-  pics[24] = load_bitmap("jump1b.bmp", NULL);
-  pics[25] = load_bitmap("jump2b.bmp", NULL);
-  pics[26] = load_bitmap("jump3b.bmp", NULL);
-  pics[27] = load_bitmap("jump4b.bmp", NULL);
-  pics[28] = load_bitmap("run6b.bmp", NULL);
-  pics[29] = load_bitmap("run5b.bmp", NULL);
-  pics[30] = load_bitmap("run4b.bmp", NULL);
-  pics[31] = load_bitmap("run3b.bmp", NULL);
-  pics[32] = load_bitmap("run2b.bmp", NULL);
-  pics[33] = load_bitmap("run1b.bmp", NULL);
+  pics[0] = al_load_bitmap("crouch1.bmp");
+  pics[1] = al_load_bitmap("crouch2.bmp");
+  pics[2] = al_load_bitmap("crouch3.bmp");
+  pics[3] = al_load_bitmap("crouch4.bmp");
+  pics[4] = al_load_bitmap("idle1.bmp");
+  pics[5] = al_load_bitmap("idle2.bmp");
+  pics[6] = al_load_bitmap("idle3.bmp");
+  pics[7] = al_load_bitmap("jump1.bmp");
+  pics[8] = al_load_bitmap("jump2.bmp");
+  pics[9] = al_load_bitmap("jump3.bmp");
+  pics[10] = al_load_bitmap("jump4.bmp");
+  pics[11] = al_load_bitmap("run6.bmp");
+  pics[12] = al_load_bitmap("run5.bmp");
+  pics[13] = al_load_bitmap("run4.bmp");
+  pics[14] = al_load_bitmap("run3.bmp");
+  pics[15] = al_load_bitmap("run2.bmp");
+  pics[16] = al_load_bitmap("run1.bmp");
+  pics[17] = al_load_bitmap("crouch1b.bmp");
+  pics[18] = al_load_bitmap("crouch2b.bmp");
+  pics[19] = al_load_bitmap("crouch3b.bmp");
+  pics[20] = al_load_bitmap("crouch4b.bmp");
+  pics[21] = al_load_bitmap("idle1b.bmp");
+  pics[22] = al_load_bitmap("idle2b.bmp");
+  pics[23] = al_load_bitmap("idle3b.bmp");
+  pics[24] = al_load_bitmap("jump1b.bmp");
+  pics[25] = al_load_bitmap("jump2b.bmp");
+  pics[26] = al_load_bitmap("jump3b.bmp");
+  pics[27] = al_load_bitmap("jump4b.bmp");
+  pics[28] = al_load_bitmap("run6b.bmp");
+  pics[29] = al_load_bitmap("run5b.bmp");
+  pics[30] = al_load_bitmap("run4b.bmp");
+  pics[31] = al_load_bitmap("run3b.bmp");
+  pics[32] = al_load_bitmap("run2b.bmp");
+  pics[33] = al_load_bitmap("run1b.bmp");
 }
 
 void Player::move() {
@@ -185,30 +183,34 @@ void Player::hit() {}
 void Player::checkPlatform(int b2_x, int b2_y, int b2_w, int b2_h) {
   if ((locationY + hgt) < floorHeight &&
       checkCollision(b2_x, b2_y, b2_w, b2_h) == 0) {
-    // textout_ex(buf, font, "FLOATING!!1", 10, 10, makecol(0, 0, 255), -1);
+    // textout_ex(buf, font, "FLOATING!!1", 10, 10, al_map_rgb(0, 0, 255), -1);
     jumping = true;
     // floorHeight=560;
   }
   if (checkCollision(b2_x, b2_y, b2_w, b2_h) == 1) {
     if ((locationY + hgt) >= b2_y && (locationY + hgt) <= (b2_y + 12)) {
-      // textout_ex(buf, font, "UPPER HIT!!!", 10, 10, makecol(0, 0, 255), -1);
+      // textout_ex(buf, font, "UPPER HIT!!!", 10, 10, al_map_rgb(0, 0, 255),
+      // -1);
       floorHeight = b2_y + 1;
       resetFloorHeight = false;
     } else if ((locationY <= (b2_y + b2_h)) && (locationY > b2_y)) {
-      // textout_ex(buf, font, "LOWER HIT!!!", 10, 10, makecol(0, 0, 255), -1);
+      // textout_ex(buf, font, "LOWER HIT!!!", 10, 10, al_map_rgb(0, 0, 255),
+      // -1);
       yVel = 4;
       jumping = false;
     } else if ((locationX + wid) >= b2_x && locationX <= b2_x) {
-      // textout_ex(buf, font, "LEFT HIT!!!", 10, 10, makecol(0, 0, 255), -1);
+      // textout_ex(buf, font, "LEFT HIT!!!", 10, 10, al_map_rgb(0, 0, 255),
+      // -1);
       locationX = (b2_x - wid);
       xVel = 0;
     } else if (locationX < (b2_x + b2_w)) {
-      // textout_ex(buf, font, "RIGHT HIT!!!", 10, 10, makecol(0, 0, 255), -1);
+      // textout_ex(buf, font, "RIGHT HIT!!!", 10, 10, al_map_rgb(0, 0, 255),
+      // -1);
       locationX = (b2_x + b2_w);
       xVel = 0;
     }
   } else {
-    // textout_ex(buf, font, "NO HIT!!", 10, 20, makecol(0, 0, 255), -1);
+    // textout_ex(buf, font, "NO HIT!!", 10, 20, al_map_rgb(0, 0, 255), -1);
     // floorHeight=560;
   }
 }

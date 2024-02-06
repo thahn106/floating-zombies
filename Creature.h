@@ -11,8 +11,8 @@ the Enemy.
 
 class Creature : public Movable {
  public:
-  Creature(int x, int y, int x2, int y2, int velX, int velY, BITMAP *buffer,
-           BITMAP *picture);
+  Creature(int x, int y, int x2, int y2, int velX, int velY,
+           ALLEGRO_BITMAP *buffer, ALLEGRO_BITMAP *picture);
   void LoseHealth(int amount);  // Each creature has 100 hit points.
   // void makeBullet(int xLoc, int yLoc, int direction); // Virtual
   void move();  // Virtual
@@ -23,7 +23,7 @@ class Creature : public Movable {
 };
 
 Creature::Creature(int x, int y, int x2, int y2, int velX, int velY,
-                   BITMAP *buffer, BITMAP *picture)
+                   ALLEGRO_BITMAP *buffer, ALLEGRO_BITMAP *picture)
 
     : Movable(x, y, x2, y2, velX, velY, buffer, picture)
 
