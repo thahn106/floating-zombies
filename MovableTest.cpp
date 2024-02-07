@@ -2,7 +2,7 @@
 #define PLAYER 1
 #include "Player.h"
 #endif
-#include <stdlib.h>
+// #include <stdlib.h>
 
 #include "Background.h"
 #include "Enemy.h"
@@ -23,7 +23,7 @@ void update_key(ALLEGRO_KEYBOARD_STATE &key, bool *keyboard_state) {
   }
 }
 
-int main() {
+int real_main(int argc, char **argv) {
   srand(time(NULL));
 
   // initialize allegro
@@ -521,3 +521,5 @@ void setEnemies(Enemy *enemies[50], ALLEGRO_BITMAP *buffer, Player *c) {
                          al_load_bitmap("zombiewalk.bmp"), c);
   i++;
 }
+
+int main(int argc, char **argv) { return al_run_main(argc, argv, real_main); }
