@@ -31,10 +31,13 @@ endif
 
 # OS specific settings
 RM :=
+MKDIR :=
 ifeq ($(OS),Windows_NT)
-	RM += del /Q /F
+	RM += rmdir /s /q
+	MKDIR += mkdir
 else
 	RM += rm -f
+	MKDIR += mkdir -p
 endif
 
 # Compilers
@@ -67,33 +70,43 @@ else
 	FLAGS += $(LDFLAGS)
 endif
 
-SOURCES :=
-SOURCES += MovableTest.cpp
-SOURCES += Background.cpp
-SOURCES += Creature.cpp
-SOURCES += Immovable.cpp
-SOURCES += Movable.cpp
-SOURCES += Player.cpp
-SOURCES += Enemy.cpp
-SOURCES += utils.cpp
+CXX := g++
 
-default: clean all
+SRC_DIR := src
+OBJ_DIR := obj
+BIN_DIR := bin
+DLL_DIR := allegro5\bin
+
+EXE := $(BIN_DIR)/Explosions
+SRC := $(wildcard $(SRC_DIR)/*.cpp)
+OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+
+DLL := $(wildcard $(DLL_DIR)/*.dll)
+
+CPPFLAGS := -Iinclude -MMD -MP
+CFLAGS   := -Wall
+LDFLAGS  := -Llib
+LDLIBS   := -lm
+
+.PHONY: all clean
+
+
+all: $(EXE)
+ifeq ($(OS),Windows_NT)
+	copy $(DLL_DIR)\*.dll $(BIN_DIR)
+	@echo "Windows build complete"
+else
+	@echo "Linux build complete"
+endif
+
+$(EXE): $(OBJ) | $(BIN_DIR)
+	$(CXX)  $^ $(LDLIBS) -o $@ $(WINLDFLAGS) $(CXXINCS) $(LIBS)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXINCS) -c $< -o $@
+
+$(BIN_DIR) $(OBJ_DIR):
+	$(MKDIR) $@
 
 clean:
-	${RM} $(OBJ) $(TARGET)
-
-all:
-	@echo Building $(TARGET) with $(OSFLAG)
-	$(CPP) $(SOURCES) -o $(TARGET) $(FLAGS)
-
-test:
-	@echo Testing build settings with $(OSFLAG)
-	@echo CPP: $(CPP)
-	@echo TARGET: $(TARGET)
-	@echo FLAGS: $(FLAGS)
-
-$(BIN): $(OBJ)
-	$(CPP) $(LINKOBJ) -o "Explosions.exe" $(LIBS)
-
-MovableTest.o: MovableTest.cpp
-	$(CPP) -c MovableTest.cpp -o MovableTest.o $(CXXFLAGS)
+	$(RM) $(BIN_DIR) $(OBJ_DIR)

@@ -5,7 +5,9 @@
 *.o
 *.exe
 /build
+/bin
+/obj
+
 
 # Dependencies
 /allegro5
-
