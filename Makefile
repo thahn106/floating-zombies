@@ -28,7 +28,6 @@ else
 	endif
 endif
 
-
 # OS specific settings
 RM :=
 MKDIR :=
@@ -41,12 +40,8 @@ else
 endif
 
 # Compilers
-CPP  = g++
+CXX  = g++
 CC   = gcc
-
-RES  = 
-OBJ  = MovableTest.o $(RES)
-LINKOBJ  = MovableTest.o $(RES)
 
 # Flags
 ALLEGRO_DIR = $(CURDIR)/allegro5
@@ -55,22 +50,15 @@ CXXINCS = -I"$(CURDIR)/allegro5/include"
 WINLDFLAGS= -lallegro -lallegro_main -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_acodec -lallegro_image -lallegro_color
 LDFLAGS=$(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 allegro_image allegro_color --libs --cflags)
 
-# Build targets
-BUILDDIR=build
 TARGETNAME=Explosions
 
 # OS specific settings
-TARGET:= 
 FLAGS:=
 ifeq ($(OS),Windows_NT)
-	TARGET += $(BUILDDIR)\$(TARGETNAME).exe
 	FLAGS += $(WINLDFLAGS) $(CXXINCS) $(LIBS)
 else
-	TARGET += $(BUILDDIR)/$(TARGETNAME)
 	FLAGS += $(LDFLAGS)
 endif
-
-CXX := g++
 
 SRC_DIR := src
 OBJ_DIR := obj
@@ -89,7 +77,6 @@ LDFLAGS  := -Llib
 LDLIBS   := -lm
 
 .PHONY: all clean
-
 
 all: $(EXE)
 ifeq ($(OS),Windows_NT)
