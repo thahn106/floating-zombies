@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "allegro.h"
 #include "time.h"
+#include "utils.h"
 
 const int initialVel = -14;
 const int immoveNum = 50;
@@ -54,14 +55,14 @@ int real_main(int argc, char **argv) {
   // initialize primitives
   al_init_primitives_addon();
 
-  ALLEGRO_BITMAP *blockplatform = al_load_bitmap("BlockPlatform.bmp");
+  ALLEGRO_BITMAP *blockplatform = load_bitmap("BlockPlatform.bmp");
   ALLEGRO_SAMPLE *gunshot = al_load_sample("gun.wav");
   ALLEGRO_SAMPLE *music = al_load_sample("UntoldStory.wav");
   ALLEGRO_SAMPLE *ivmusic = al_load_sample("starman.wav");
   ALLEGRO_SAMPLE *death = al_load_sample("zdeath.wav");
   ALLEGRO_SAMPLE *attack = al_load_sample("zattack.wav");
 
-  Background b(0, 0, 800, 600, al_load_bitmap("SuperMarioBrosBackground.bmp"),
+  Background b(0, 0, 800, 600, load_bitmap("SuperMarioBrosBackground.bmp"),
                buffer);
   Player c(150, 560, 50, 64, initialVel, initialVel, buffer, key);
   Immovable *immove[immoveNum];
@@ -84,7 +85,7 @@ int real_main(int argc, char **argv) {
 
   setEnemies(enemies, buffer, &c);
 
-  ALLEGRO_BITMAP *title_screen = al_load_bitmap("TitleScreen.bmp");
+  ALLEGRO_BITMAP *title_screen = load_bitmap("TitleScreen.bmp");
   al_draw_bitmap(title_screen, 0, 0, 0);
   al_flip_display();
   update_key(keyboard_state, key);
@@ -104,19 +105,19 @@ int real_main(int argc, char **argv) {
         bullets[i] = bullets[i - 1];
       }
       if (c.direction == 2) {
-        bullets[0] = new Movable(
-            c.locationX + 30, c.locationY + 29, 5, 3, initialVel, initialVel,
-            buffer, al_load_bitmap("SmallBullet.bmp"), c.direction);
+        bullets[0] = new Movable(c.locationX + 30, c.locationY + 29, 5, 3,
+                                 initialVel, initialVel, buffer,
+                                 load_bitmap("SmallBullet.bmp"), c.direction);
         muzzaFuzza = 2;
-        al_draw_bitmap(al_load_bitmap("muzzafuzza.bmp"), c.locationX + 30,
+        al_draw_bitmap(load_bitmap("muzzafuzza.bmp"), c.locationX + 30,
                        c.locationY + 29, 0);
       }
       if (c.direction == 1) {
-        bullets[0] = new Movable(
-            c.locationX + 20, c.locationY + 29, 5, 3, initialVel, initialVel,
-            buffer, al_load_bitmap("SmallBulletb.bmp"), c.direction);
+        bullets[0] = new Movable(c.locationX + 20, c.locationY + 29, 5, 3,
+                                 initialVel, initialVel, buffer,
+                                 load_bitmap("SmallBulletb.bmp"), c.direction);
         muzzaFuzza = 1;
-        al_draw_bitmap(al_load_bitmap("muzzafuzza.bmp"), c.locationX + 30,
+        al_draw_bitmap(load_bitmap("muzzafuzza.bmp"), c.locationX + 30,
                        c.locationY + 29, 0);
       }
       bulletNum++;
@@ -320,12 +321,12 @@ int real_main(int argc, char **argv) {
     //                 al_map_rgb(rand() % 256, rand() % 256, rand() % 256), -1,
     //                 "POWERUP!!!");
     if (muzzaFuzza == 1) {
-      al_draw_bitmap(al_load_bitmap("muzzafuzzab.bmp"), c.locationX - 23,
+      al_draw_bitmap(load_bitmap("muzzafuzzab.bmp"), c.locationX - 23,
                      c.locationY + 25, 0);
       muzzaFuzza = 0;
     }
     if (muzzaFuzza == 2) {
-      al_draw_bitmap(al_load_bitmap("muzzafuzza.bmp"), c.locationX + 45,
+      al_draw_bitmap(load_bitmap("muzzafuzza.bmp"), c.locationX + 45,
                      c.locationY + 25, 0);
       muzzaFuzza = 0;
     }
@@ -363,25 +364,25 @@ void setImmovables(Immovable *immove[immoveNum], ALLEGRO_BITMAP *blockplatform,
 void setEnemies(Enemy *enemies[50], ALLEGRO_BITMAP *buffer, Player *c) {
   int i = 0;
   enemies[i] = new Enemy(300, 0, 50, 64, initialVel, initialVel, buffer,
-                         al_load_bitmap("zombiewalk.bmp"), c);
+                         load_bitmap("zombiewalk.bmp"), c);
   i++;
   enemies[i] = new Enemy(600, 0, 50, 64, initialVel, initialVel, buffer,
-                         al_load_bitmap("zombiewalk.bmp"), c);
+                         load_bitmap("zombiewalk.bmp"), c);
   i++;
   enemies[i] = new Enemy(900, 0, 50, 64, initialVel, initialVel, buffer,
-                         al_load_bitmap("zombiewalk.bmp"), c);
+                         load_bitmap("zombiewalk.bmp"), c);
   i++;
   enemies[i] = new Enemy(1200, 0, 50, 64, initialVel, initialVel, buffer,
-                         al_load_bitmap("zombiewalk.bmp"), c);
+                         load_bitmap("zombiewalk.bmp"), c);
   i++;
   enemies[i] = new Enemy(1500, 0, 50, 64, initialVel, initialVel, buffer,
-                         al_load_bitmap("zombiewalk.bmp"), c);
+                         load_bitmap("zombiewalk.bmp"), c);
   i++;
   enemies[i] = new Enemy(1800, 0, 50, 64, initialVel, initialVel, buffer,
-                         al_load_bitmap("zombiewalk.bmp"), c);
+                         load_bitmap("zombiewalk.bmp"), c);
   i++;
   enemies[i] = new Enemy(2100, 0, 50, 64, initialVel, initialVel, buffer,
-                         al_load_bitmap("zombiewalk.bmp"), c);
+                         load_bitmap("zombiewalk.bmp"), c);
   i++;
 }
 

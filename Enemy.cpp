@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "allegro.h"
+#include "utils.h"
 Enemy::Enemy(int x, int y, int width, int height, int velX, int velY,
              ALLEGRO_BITMAP *buffer, ALLEGRO_BITMAP *picture, Player *playa)
     : Creature(x, y, width, height, velX, velY, buffer, picture) {
@@ -31,25 +32,25 @@ void Enemy::move() {
 void Enemy::xVelocity() {
   if ((player->locationX) < (locationX)) {
     xVel = -(speed);
-    if (picCount % 12 == 0) pic = al_load_bitmap("zombiewalkb.bmp");
-    if (picCount % 12 == 2) pic = al_load_bitmap("zombiewalk2b.bmp");
-    if (picCount % 12 == 4) pic = al_load_bitmap("zombiewalk3b.bmp");
-    if (picCount % 12 == 6) pic = al_load_bitmap("zombiewalk4b.bmp");
-    if (picCount % 12 == 8) pic = al_load_bitmap("zombiewalk5b.bmp");
-    if (picCount % 12 == 10) pic = al_load_bitmap("zombiewalk6b.bmp");
+    if (picCount % 12 == 0) pic = load_bitmap("zombiewalkb.bmp");
+    if (picCount % 12 == 2) pic = load_bitmap("zombiewalk2b.bmp");
+    if (picCount % 12 == 4) pic = load_bitmap("zombiewalk3b.bmp");
+    if (picCount % 12 == 6) pic = load_bitmap("zombiewalk4b.bmp");
+    if (picCount % 12 == 8) pic = load_bitmap("zombiewalk5b.bmp");
+    if (picCount % 12 == 10) pic = load_bitmap("zombiewalk6b.bmp");
     picCount++;
   } else if ((player->locationX) > (locationX)) {
     xVel = speed;
-    if (picCount % 12 == 0) pic = al_load_bitmap("zombiewalk.bmp");
-    if (picCount % 12 == 2) pic = al_load_bitmap("zombiewalk2.bmp");
-    if (picCount % 12 == 4) pic = al_load_bitmap("zombiewalk3.bmp");
-    if (picCount % 12 == 6) pic = al_load_bitmap("zombiewalk4.bmp");
-    if (picCount % 12 == 8) pic = al_load_bitmap("zombiewalk5.bmp");
-    if (picCount % 12 == 10) pic = al_load_bitmap("zombiewalk6.bmp");
+    if (picCount % 12 == 0) pic = load_bitmap("zombiewalk.bmp");
+    if (picCount % 12 == 2) pic = load_bitmap("zombiewalk2.bmp");
+    if (picCount % 12 == 4) pic = load_bitmap("zombiewalk3.bmp");
+    if (picCount % 12 == 6) pic = load_bitmap("zombiewalk4.bmp");
+    if (picCount % 12 == 8) pic = load_bitmap("zombiewalk5.bmp");
+    if (picCount % 12 == 10) pic = load_bitmap("zombiewalk6.bmp");
     picCount++;
   } else if ((player->locationX) == (locationX)) {
     xVel = 0;
-    // pic=al_load_bitmap("zombiewalk.bmp");
+    // pic=load_bitmap("zombiewalk.bmp");
   }
   if (picCount == 12) picCount = 0;
 }

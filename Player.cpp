@@ -1,10 +1,11 @@
 #include "Creature.h"
 #include "Player.h"
 #include "allegro.h"
+#include "utils.h"
 
 Player::Player(int x, int y, int x2, int y2, int velX, int velY,
                ALLEGRO_BITMAP *buffer, bool *key)
-    : Creature(x, y, x2, y2, velX, velY, buffer, al_load_bitmap("idle1.bmp")) {
+    : Creature(x, y, x2, y2, velX, velY, buffer, load_bitmap("idle1.bmp")) {
   maxxVel = 13;
   picCount = 0;
   jumpCount = 0;
@@ -15,40 +16,40 @@ Player::Player(int x, int y, int x2, int y2, int velX, int velY,
   slowWalk = 0;
   floorHeight = 560;
   resetFloorHeight = true;
-  pics[0] = al_load_bitmap("crouch1.bmp");
-  pics[1] = al_load_bitmap("crouch2.bmp");
-  pics[2] = al_load_bitmap("crouch3.bmp");
-  pics[3] = al_load_bitmap("crouch4.bmp");
-  pics[4] = al_load_bitmap("idle1.bmp");
-  pics[5] = al_load_bitmap("idle2.bmp");
-  pics[6] = al_load_bitmap("idle3.bmp");
-  pics[7] = al_load_bitmap("jump1.bmp");
-  pics[8] = al_load_bitmap("jump2.bmp");
-  pics[9] = al_load_bitmap("jump3.bmp");
-  pics[10] = al_load_bitmap("jump4.bmp");
-  pics[11] = al_load_bitmap("run6.bmp");
-  pics[12] = al_load_bitmap("run5.bmp");
-  pics[13] = al_load_bitmap("run4.bmp");
-  pics[14] = al_load_bitmap("run3.bmp");
-  pics[15] = al_load_bitmap("run2.bmp");
-  pics[16] = al_load_bitmap("run1.bmp");
-  pics[17] = al_load_bitmap("crouch1b.bmp");
-  pics[18] = al_load_bitmap("crouch2b.bmp");
-  pics[19] = al_load_bitmap("crouch3b.bmp");
-  pics[20] = al_load_bitmap("crouch4b.bmp");
-  pics[21] = al_load_bitmap("idle1b.bmp");
-  pics[22] = al_load_bitmap("idle2b.bmp");
-  pics[23] = al_load_bitmap("idle3b.bmp");
-  pics[24] = al_load_bitmap("jump1b.bmp");
-  pics[25] = al_load_bitmap("jump2b.bmp");
-  pics[26] = al_load_bitmap("jump3b.bmp");
-  pics[27] = al_load_bitmap("jump4b.bmp");
-  pics[28] = al_load_bitmap("run6b.bmp");
-  pics[29] = al_load_bitmap("run5b.bmp");
-  pics[30] = al_load_bitmap("run4b.bmp");
-  pics[31] = al_load_bitmap("run3b.bmp");
-  pics[32] = al_load_bitmap("run2b.bmp");
-  pics[33] = al_load_bitmap("run1b.bmp");
+  pics[0] = load_bitmap("crouch1.bmp");
+  pics[1] = load_bitmap("crouch2.bmp");
+  pics[2] = load_bitmap("crouch3.bmp");
+  pics[3] = load_bitmap("crouch4.bmp");
+  pics[4] = load_bitmap("idle1.bmp");
+  pics[5] = load_bitmap("idle2.bmp");
+  pics[6] = load_bitmap("idle3.bmp");
+  pics[7] = load_bitmap("jump1.bmp");
+  pics[8] = load_bitmap("jump2.bmp");
+  pics[9] = load_bitmap("jump3.bmp");
+  pics[10] = load_bitmap("jump4.bmp");
+  pics[11] = load_bitmap("run6.bmp");
+  pics[12] = load_bitmap("run5.bmp");
+  pics[13] = load_bitmap("run4.bmp");
+  pics[14] = load_bitmap("run3.bmp");
+  pics[15] = load_bitmap("run2.bmp");
+  pics[16] = load_bitmap("run1.bmp");
+  pics[17] = load_bitmap("crouch1b.bmp");
+  pics[18] = load_bitmap("crouch2b.bmp");
+  pics[19] = load_bitmap("crouch3b.bmp");
+  pics[20] = load_bitmap("crouch4b.bmp");
+  pics[21] = load_bitmap("idle1b.bmp");
+  pics[22] = load_bitmap("idle2b.bmp");
+  pics[23] = load_bitmap("idle3b.bmp");
+  pics[24] = load_bitmap("jump1b.bmp");
+  pics[25] = load_bitmap("jump2b.bmp");
+  pics[26] = load_bitmap("jump3b.bmp");
+  pics[27] = load_bitmap("jump4b.bmp");
+  pics[28] = load_bitmap("run6b.bmp");
+  pics[29] = load_bitmap("run5b.bmp");
+  pics[30] = load_bitmap("run4b.bmp");
+  pics[31] = load_bitmap("run3b.bmp");
+  pics[32] = load_bitmap("run2b.bmp");
+  pics[33] = load_bitmap("run1b.bmp");
   this->key = key;
 }
 
