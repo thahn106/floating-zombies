@@ -67,6 +67,15 @@ else
 	FLAGS += $(LDFLAGS)
 endif
 
+SOURCES :=
+SOURCES += MovableTest.cpp
+SOURCES += Background.cpp
+SOURCES += Creature.cpp
+SOURCES += Immovable.cpp
+SOURCES += Movable.cpp
+SOURCES += Player.cpp
+SOURCES += Enemy.cpp
+
 default: clean all
 
 clean:
@@ -74,7 +83,7 @@ clean:
 
 all:
 	@echo Building $(TARGET) with $(OSFLAG)
-	$(CPP) MovableTest.cpp -o $(TARGET) $(FLAGS)
+	$(CPP) $(SOURCES) -o $(TARGET) $(FLAGS)
 
 test:
 	@echo Testing build settings with $(OSFLAG)

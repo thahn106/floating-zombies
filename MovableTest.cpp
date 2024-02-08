@@ -1,14 +1,14 @@
-#ifndef PLAYER
-#define PLAYER 1
-#include "Player.h"
-#endif
-// #include <stdlib.h>
-
 #include <utility>
 
 #include "Background.h"
+#include "Creature.h"
 #include "Enemy.h"
+#include "Immovable.h"
+#include "Movable.h"
+#include "Player.h"
+#include "allegro.h"
 #include "time.h"
+
 const int initialVel = -14;
 const int immoveNum = 50;
 int shootRate = 5;

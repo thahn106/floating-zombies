@@ -1,14 +1,12 @@
+#ifndef CREATURE_H
+#define CREATURE_H
 /*
 Creature.h
 These objects extend Movable objects. They will be extended by the Player and
 the Enemy.
 */
-
-#ifndef MOVABLE
-#define MOVABLE 1
 #include "Movable.h"
-#endif
-
+#include "allegro.h"
 class Creature : public Movable {
  public:
   Creature(int x, int y, int x2, int y2, int velX, int velY,
@@ -22,18 +20,4 @@ class Creature : public Movable {
   void destroy();
 };
 
-Creature::Creature(int x, int y, int x2, int y2, int velX, int velY,
-                   ALLEGRO_BITMAP *buffer, ALLEGRO_BITMAP *picture)
-
-    : Movable(x, y, x2, y2, velX, velY, buffer, picture)
-
-{
-  health = 150;
-}
-
-void Creature::LoseHealth(int amount) {
-  health -= amount;
-  if (health <= 0) destroy();
-}
-
-void Creature::destroy() {}  // ADD WHAT HAPPENS WHEN THEY ARE DESTROYED
+#endif  // CREATURE_H
