@@ -4,6 +4,8 @@
 #endif
 // #include <stdlib.h>
 
+#include <utility>
+
 #include "Background.h"
 #include "Enemy.h"
 #include "time.h"
@@ -38,15 +40,12 @@ int real_main(int argc, char **argv) {
   // initialize audio
   al_install_audio();
   al_init_acodec_addon();
-  // install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
 
   // initialize graphics
   al_init_image_addon();
+
   // initialize display
   ALLEGRO_DISPLAY *disp = al_create_display(800, 600);
-  // set_color_depth(16);
-  // set_gfx_mode(GFX_AUTODETECT, 800, 600, 0, 0);
-  // acquire_screen();
   ALLEGRO_BITMAP *buffer = al_create_bitmap(800, 600);
 
   // initialize font
@@ -334,10 +333,9 @@ int real_main(int argc, char **argv) {
     al_rest(0.03);  // TODO: Implement a better way to handle frame rate
   }
   al_destroy_display(disp);
-  // release_screen();
+  al_destroy_font(font);
   return 0;
 }
-// END_OF_MAIN();
 
 void setImmovables(Immovable *immove[immoveNum], ALLEGRO_BITMAP *block,
                    ALLEGRO_BITMAP *buf) {
