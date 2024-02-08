@@ -35,12 +35,12 @@ ifeq ($(OS),Windows_NT)
 	RM += rmdir /s /q
 	MKDIR += mkdir
 else
-	RM += rm -f
+	RM += rm -rf
 	MKDIR += mkdir -p
 endif
 
 # Compilers
-CXX  = g++
+CXX  = g++ -std=c++17
 CC   = gcc
 
 # Flags
@@ -48,7 +48,7 @@ ALLEGRO_DIR = $(CURDIR)/allegro5
 LIBS =  -L"$(ALLEGRO_DIR)/lib" -L"$(ALLEGRO_DIR)/bin"
 CXXINCS = -I"$(CURDIR)/allegro5/include"
 WINLDFLAGS= -lallegro -lallegro_main -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_acodec -lallegro_image -lallegro_color
-LDFLAGS=$(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 allegro_image allegro_color --libs --cflags)
+LDFLAGS=$(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 allegro_image-5 allegro_color-5 --libs --cflags)
 
 TARGETNAME=Explosions
 
@@ -87,10 +87,10 @@ else
 endif
 
 $(EXE): $(OBJ) | $(BIN_DIR)
-	$(CXX)  $^ $(LDLIBS) -o $@ $(WINLDFLAGS) $(CXXINCS) $(LIBS)
+	$(CXX)  $^ $(LDLIBS) -o $@ $(FLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXINCS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXINCS) -c $< -o $@ $(FLAGS)
 
 $(BIN_DIR) $(OBJ_DIR):
 	$(MKDIR) $@
