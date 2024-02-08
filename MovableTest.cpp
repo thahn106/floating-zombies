@@ -40,6 +40,8 @@ int real_main(int argc, char **argv) {
   al_init_acodec_addon();
   // install_sound(DIGI_AUTODETECT, MIDI_NONE, "");
 
+  // initialize graphics
+  al_init_image_addon();
   // initialize display
   ALLEGRO_DISPLAY *disp = al_create_display(800, 600);
   // set_color_depth(16);
@@ -83,12 +85,17 @@ int real_main(int argc, char **argv) {
 
   setEnemies(enemies, buffer, &c);
 
-  al_draw_bitmap(al_load_bitmap("TitleScreen.bmp"), 0, 0, 0);
-
+  ALLEGRO_BITMAP *title_screen = al_load_bitmap("TitleScreen.bmp");
+  al_draw_bitmap(title_screen, 0, 0, 0);
+  al_flip_display();
+  update_key(keyboard_state, key);
   while (!key[ALLEGRO_KEY_SPACE]) {
-    al_draw_bitmap(buffer, 0, 0, 0);
+    update_key(keyboard_state, key);
   }
-  // play_sample(music, 55, 128, 1000, 1);
+
+  // play_sample(music, 55, 128, 1000, 1);  // TODO: Fix and reenable
+
+  // main game loop
   while (!key[ALLEGRO_KEY_ESCAPE]) {
     update_key(keyboard_state, key);
 
@@ -323,9 +330,8 @@ int real_main(int argc, char **argv) {
                      c.locationY + 25, 0);
       muzzaFuzza = 0;
     }
-    al_draw_bitmap(buffer, 0, 0, 0);
-    // clear_keybuf();
-    al_rest(30);  // TODO: Implement a better way to handle frame rate
+    al_flip_display();
+    al_rest(0.03);  // TODO: Implement a better way to handle frame rate
   }
   al_destroy_display(disp);
   // release_screen();

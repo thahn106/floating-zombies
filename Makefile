@@ -49,8 +49,8 @@ LINKOBJ  = MovableTest.o $(RES)
 ALLEGRO_DIR = $(CURDIR)/allegro5
 LIBS =  -L"$(ALLEGRO_DIR)/lib" -L"$(ALLEGRO_DIR)/bin"
 CXXINCS = -I"$(CURDIR)/allegro5/include"
-WINLDFLAGS= -lallegro -lallegro_main -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_acodec
-LDFLAGS=$(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 --libs --cflags)
+WINLDFLAGS= -lallegro -lallegro_main -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_acodec -lallegro_image -lallegro_color
+LDFLAGS=$(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 allegro_image allegro_color --libs --cflags)
 
 # Build targets
 BUILDDIR=build
@@ -66,6 +66,8 @@ else
 	TARGET += $(BUILDDIR)/$(TARGETNAME)
 	FLAGS += $(LDFLAGS)
 endif
+
+default: clean all
 
 clean:
 	${RM} $(OBJ) $(TARGET)
