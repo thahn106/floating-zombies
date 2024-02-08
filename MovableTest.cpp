@@ -14,8 +14,8 @@ const int immoveNum = 50;
 int shootRate = 5;
 const int maxBullets = 200;
 
-void setImmovables(Immovable *immove[immoveNum], ALLEGRO_BITMAP *block,
-                   ALLEGRO_BITMAP *buf);
+void setImmovables(Immovable *immove[immoveNum], ALLEGRO_BITMAP *,
+                   ALLEGRO_BITMAP *);
 void setEnemies(Enemy *enemies[50], ALLEGRO_BITMAP *, Player *);
 
 void update_key(ALLEGRO_KEYBOARD_STATE &key, bool *keyboard_state) {
@@ -54,7 +54,7 @@ int real_main(int argc, char **argv) {
   // initialize primitives
   al_init_primitives_addon();
 
-  ALLEGRO_BITMAP *block = al_load_bitmap("Block.bmp");
+  ALLEGRO_BITMAP *blockplatform = al_load_bitmap("BlockPlatform.bmp");
   ALLEGRO_SAMPLE *gunshot = al_load_sample("gun.wav");
   ALLEGRO_SAMPLE *music = al_load_sample("UntoldStory.wav");
   ALLEGRO_SAMPLE *ivmusic = al_load_sample("starman.wav");
@@ -77,7 +77,7 @@ int real_main(int argc, char **argv) {
 
   for (int i = 0; i < immoveNum; i++) immove[i] = NULL;
 
-  setImmovables(immove, block, buffer);
+  setImmovables(immove, blockplatform, buffer);
 
   Enemy *enemies[50];
   for (int i = 0; i < 50; i++) enemies[i] = NULL;
@@ -337,168 +337,27 @@ int real_main(int argc, char **argv) {
   return 0;
 }
 
-void setImmovables(Immovable *immove[immoveNum], ALLEGRO_BITMAP *block,
+void setImmovables(Immovable *immove[immoveNum], ALLEGRO_BITMAP *blockplatform,
                    ALLEGRO_BITMAP *buf) {
+  const std::pair<int, int> platform_coords[] = {
+      {300, 495},  {600, 430},  {657, 341},  {857, 341},  {925, 341},
+      {1200, 290}, {1400, 290}, {1122, 433}, {1854, 342}, {2054, 342},
+      {2254, 342}, {1575, 397}, {853, 494},  {1421, 494}, {2500, 200},
+      {2595, 425}, {2700, 200}, {2900, 200}, {2400, 495}, {2795, 425},
+      {3041, 341}, {3241, 341}, {3441, 341}, {2953, 79},  {3153, 79},
+      {3353, 79},  {3553, 79},  {3753, 79},  {3953, 79},  {4153, 79},
+      {4237, 341}, {4437, 341}, {4637, 341}, {4900, 431}, {4875, 230},
+      {5163, 329}, {5248, 230}, {5680, 341}, {5480, 341}, {3770, 456},
+      {3970, 456}, {6000, 248}, {6000, 455}, {6200, 150}, {6200, 390},
+      {6400, 341}, {6600, 341}, {6800, 341}, {7000, 341}, {7200, 341},
+      {7400, 341}};
+
   int i = 0;
-  immove[i] = new Immovable(300, 495, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(600, 430, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(657, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(857, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(925, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(1200, 290, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(1400, 290, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(1122, 433, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(1854, 342, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(2054, 342, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(2254, 342, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(1575, 397, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(853, 494, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(1421, 494, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(2500, 200, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(2595, 425, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(2700, 200, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(2900, 200, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(2400, 495, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(2795, 425, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3041, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3241, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3441, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(2953, 79, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3153, 79, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3353, 79, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3553, 79, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3753, 79, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3953, 79, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(4153, 79, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(4237, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(4437, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(4637, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(4900, 431, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(4875, 230, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(5163, 329, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(5248, 230, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(5680, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(5480, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3770, 456, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(3970, 456, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(6000, 248, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(6000, 455, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(6200, 150, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(6200, 390, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(6400, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(6600, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(6800, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(7000, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(7200, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  immove[i] = new Immovable(7400, 341, 200, 15,
-                            al_load_bitmap("BlockPlatform.bmp"), buf);
-  i++;
-  /*immove[i]=new Immovable(, , 200, 15, al_load_bitmap("BlockPlatform.bmp",
-  NULL), buf); i++; immove[i]=new Immovable(, , 200, 15,
-  al_load_bitmap("BlockPlatform.bmp"), buf); i++; immove[i]=new
-  Immovable(, , 200, 15, al_load_bitmap("BlockPlatform.bmp"), buf); i++;
-  immove[i]=new Immovable(, , 200, 15, al_load_bitmap("BlockPlatform.bmp",
-  NULL), buf); i++;*/
+  for (auto &coords : platform_coords) {
+    immove[i] =
+        new Immovable(coords.first, coords.second, 200, 15, blockplatform, buf);
+    i++;
+  }
 }
 
 void setEnemies(Enemy *enemies[50], ALLEGRO_BITMAP *buffer, Player *c) {
