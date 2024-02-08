@@ -75,6 +75,7 @@ SOURCES += Immovable.cpp
 SOURCES += Movable.cpp
 SOURCES += Player.cpp
 SOURCES += Enemy.cpp
+SOURCES += utils.cpp
 
 default: clean all
 
