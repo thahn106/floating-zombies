@@ -85,6 +85,7 @@ Player::Player(int x, int y, int x2, int y2, int velX, int velY,
   pics[31] = al_load_bitmap("run3b.bmp");
   pics[32] = al_load_bitmap("run2b.bmp");
   pics[33] = al_load_bitmap("run1b.bmp");
+  this->key = key;
 }
 
 void Player::move() {
