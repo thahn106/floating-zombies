@@ -1,3 +1,4 @@
+#include <iostream>
 #include <utility>
 
 #include "Background.h"
@@ -42,6 +43,20 @@ int real_main(int argc, char **argv) {
   al_install_audio();
   al_init_acodec_addon();
 
+  ALLEGRO_VOICE *voice =
+      al_create_voice(44100, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_2);
+
+  ALLEGRO_MIXER *mixer = al_create_mixer(44100, ALLEGRO_AUDIO_DEPTH_FLOAT32,
+                                         ALLEGRO_CHANNEL_CONF_2);
+  al_attach_mixer_to_voice(mixer, voice);
+
+  int count = al_get_num_audio_output_devices();
+  for (int i = 0; i < count; i++) {
+    const ALLEGRO_AUDIO_DEVICE *device = al_get_audio_output_device(i);
+    std::cout << ("%s\n", al_get_audio_device_name(device)) << std::endl;
+  }
+  al_reserve_samples(30);
+
   // initialize graphics
   al_init_image_addon();
 
@@ -56,11 +71,11 @@ int real_main(int argc, char **argv) {
   al_init_primitives_addon();
 
   ALLEGRO_BITMAP *blockplatform = load_bitmap("BlockPlatform.bmp");
-  ALLEGRO_SAMPLE *gunshot = al_load_sample("gun.wav");
-  ALLEGRO_SAMPLE *music = al_load_sample("UntoldStory.wav");
-  ALLEGRO_SAMPLE *ivmusic = al_load_sample("starman.wav");
-  ALLEGRO_SAMPLE *death = al_load_sample("zdeath.wav");
-  ALLEGRO_SAMPLE *attack = al_load_sample("zattack.wav");
+  ALLEGRO_SAMPLE *gunshot = load_sample("gun.wav");
+  ALLEGRO_SAMPLE *music = load_sample("UntoldStory.wav");
+  ALLEGRO_SAMPLE *ivmusic = load_sample("starman.wav");
+  ALLEGRO_SAMPLE *death = load_sample("zdeath.wav");
+  ALLEGRO_SAMPLE *attack = load_sample("zattack.wav");
 
   Background b(0, 0, 800, 600, load_bitmap("SuperMarioBrosBackground.bmp"),
                buffer);
@@ -93,7 +108,8 @@ int real_main(int argc, char **argv) {
     update_key(keyboard_state, key);
   }
 
-  // play_sample(music, 55, 128, 1000, 1);  // TODO: Fix and reenable
+  al_play_sample(music, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+  al_set_voice_playing(voice, true);
 
   // main game loop
   while (!key[ALLEGRO_KEY_ESCAPE]) {
@@ -122,7 +138,8 @@ int real_main(int argc, char **argv) {
       }
       bulletNum++;
       bulletDelay = true;
-      // if (!powerUp) play_sample(gunshot, 35, 128, 1000, 0);
+      if (!powerUp)
+        al_play_sample(gunshot, 0.2, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
     }
     if (bulletDelay) {
       x++;
@@ -156,7 +173,7 @@ int real_main(int argc, char **argv) {
           // enemies[i]=NULL;
           enemies[i]->locationX = 1000;
           enemies[i]->health = 100;
-          // play_sample(death, 128, 128, 1000, 0);
+          al_play_sample(death, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
           if (!powerUp) zombieKills++;
           score += 57;
         }
@@ -173,7 +190,7 @@ int real_main(int argc, char **argv) {
         if (enemies[i]->checkCollision(c.locationX, c.locationY, c.wid,
                                        c.hgt) == 1) {
           c.health -= 1;
-          // al_load_sample(attack, 75, 128, 1000, 0);
+          al_play_sample(attack, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
         }
       }
     }
