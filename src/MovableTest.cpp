@@ -121,20 +121,20 @@ int real_main(int argc, char **argv) {
         bullets[i] = bullets[i - 1];
       }
       if (c.direction == 2) {
-        bullets[0] = new Movable(c.locationX + 30, c.locationY + 29, 5, 3,
-                                 initialVel, initialVel, buffer,
-                                 load_bitmap("SmallBullet.bmp"), c.direction);
+        bullets[0] = new Movable(
+            c.locationX + 30, c.locationY + 29, 5, 3, initialVel, initialVel,
+            buffer, load_bitmap_with_alpha("SmallBullet.bmp"), c.direction);
         muzzaFuzza = 2;
-        al_draw_bitmap(load_bitmap("muzzafuzza.bmp"), c.locationX + 30,
-                       c.locationY + 29, 0);
+        al_draw_bitmap(load_bitmap_with_alpha("muzzafuzza.bmp"),
+                       c.locationX + 30, c.locationY + 29, 0);
       }
       if (c.direction == 1) {
-        bullets[0] = new Movable(c.locationX + 20, c.locationY + 29, 5, 3,
-                                 initialVel, initialVel, buffer,
-                                 load_bitmap("SmallBulletb.bmp"), c.direction);
+        bullets[0] = new Movable(
+            c.locationX + 20, c.locationY + 29, 5, 3, initialVel, initialVel,
+            buffer, load_bitmap_with_alpha("SmallBulletb.bmp"), c.direction);
         muzzaFuzza = 1;
-        al_draw_bitmap(load_bitmap("muzzafuzza.bmp"), c.locationX + 30,
-                       c.locationY + 29, 0);
+        al_draw_bitmap(load_bitmap_with_alpha("muzzafuzza.bmp"),
+                       c.locationX + 30, c.locationY + 29, 0);
       }
       bulletNum++;
       bulletDelay = true;
@@ -338,12 +338,12 @@ int real_main(int argc, char **argv) {
     //                 al_map_rgb(rand() % 256, rand() % 256, rand() % 256), -1,
     //                 "POWERUP!!!");
     if (muzzaFuzza == 1) {
-      al_draw_bitmap(load_bitmap("muzzafuzzab.bmp"), c.locationX - 23,
-                     c.locationY + 25, 0);
+      al_draw_bitmap(load_bitmap_with_alpha("muzzafuzzab.bmp"),
+                     c.locationX - 23, c.locationY + 25, 0);
       muzzaFuzza = 0;
     }
     if (muzzaFuzza == 2) {
-      al_draw_bitmap(load_bitmap("muzzafuzza.bmp"), c.locationX + 45,
+      al_draw_bitmap(load_bitmap_with_alpha("muzzafuzza.bmp"), c.locationX + 45,
                      c.locationY + 25, 0);
       muzzaFuzza = 0;
     }

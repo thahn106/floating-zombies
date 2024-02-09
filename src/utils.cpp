@@ -13,11 +13,9 @@ ALLEGRO_BITMAP *load_bitmap(const std::string &file_name) {
   return bitmap;
 }
 
-ALLEGRO_BITMAP *load_bitmap(const std::string &file_name, bool set_alpha) {
+ALLEGRO_BITMAP *load_bitmap_with_alpha(const std::string &file_name) {
   ALLEGRO_BITMAP *bitmap = load_bitmap(file_name);
-  if (set_alpha) {
-    al_convert_mask_to_alpha(bitmap, al_map_rgb(255, 0, 255));
-  }
+  al_convert_mask_to_alpha(bitmap, al_map_rgb(255, 0, 255));
   return bitmap;
 }
 

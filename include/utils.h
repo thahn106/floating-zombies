@@ -7,7 +7,7 @@ const std::string SPRITE_PATH = ASSET_PATH + "sprites/";
 const std::string SOUND_PATH = ASSET_PATH + "sound/";
 
 ALLEGRO_BITMAP *load_bitmap(const std::string &file_name);
-ALLEGRO_BITMAP *load_bitmap(const std::string &file_name, bool set_alpha);
+ALLEGRO_BITMAP *load_bitmap_with_alpha(const std::string &file_name);
 
 ALLEGRO_SAMPLE *load_sample(const std::string &file_name);
 
