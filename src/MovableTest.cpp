@@ -85,7 +85,7 @@ int real_main(int argc, char **argv) {
   int bulletNum = 0, zombieKills = 0, score = 0, powerUpTime = 0,
       muzzaFuzza = 0;
   bool bulletDelay = false, powerUp = false, zombiePowerUp = false;
-  int x;
+  int x = 0;
 
   for (int i = 0; i < maxBullets; i++) {
     bullets[i] = NULL;
