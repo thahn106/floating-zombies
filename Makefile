@@ -76,11 +76,11 @@ CFLAGS   := -Wall
 LDFLAGS  := -Llib
 LDLIBS   := -lm
 
-.PHONY: all clean
+.PHONY: all clean run
 
 all: $(EXE)
 ifeq ($(OS),Windows_NT)
-	copy $(DLL_DIR)\*.dll $(BIN_DIR)
+	copy $(DLL_DIR)\*.dll $(BIN_DIR) > NUL
 	@echo "Windows build complete"
 else
 	@echo "Linux build complete"
@@ -97,3 +97,6 @@ $(BIN_DIR) $(OBJ_DIR):
 
 clean:
 	$(RM) $(BIN_DIR) $(OBJ_DIR)
+
+run: all
+	$(EXE)
