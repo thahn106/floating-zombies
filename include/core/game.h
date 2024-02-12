@@ -3,6 +3,8 @@
 
 #include <entt/entity/registry.hpp>
 
+#include "core/resource_manager.h"
+
 class Game {
  public:
   void init();
@@ -11,7 +13,7 @@ class Game {
  private:
   entt::registry registry;
 
-  void SetInitialEnemies();
+  void SetInitialEnemies(ResourceManager*);
 };
 
 #endif  // CORE_GAME_H

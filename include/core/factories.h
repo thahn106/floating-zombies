@@ -11,7 +11,9 @@ entt::entity CreatePlayer(entt::registry& registry, PositionType x,
 
 bool SetPlayerResourceManager(ResourceManager* player_resource_manager);
 
-entt::entity CreateEnemy(entt::registry& registry, PositionType x,
+entt::entity CreateEnemy(entt::registry& registry,
+                         ResourceManager* resource_manager, PositionType x,
                          PositionType y);
 
+bool SetZombieResourceManager(ResourceManager* zombie_resource_manager);
 #endif  // CORE_FACTORIES_H

@@ -4,16 +4,20 @@
 
 #include "allegro.h"
 
+#include "comp/zombie_ai.h"
 #include "comp/physics.h"
+#include "comp/player.h"
+#include "comp/player_animation.h"
+#include "comp/zombie_animation.h"
 #include "comp/position.h"
 #include "comp/renderable.h"
 #include "core/resource_manager.h"
-#include "comp/player_animation.h"
 #include "utils/types.h"
 
 entt::entity CreatePlayer(entt::registry& registry, PositionType x,
                           PositionType y) {
   entt::entity e = registry.create();
+  registry.emplace<Player>(e);
   registry.emplace<Position>(e, x, y);
   registry.emplace<Physics>(e, 0, 0, 0, 0);
   registry.emplace<Renderable>(e, (ALLEGRO_BITMAP*)NULL, 0, 0);
@@ -59,11 +63,29 @@ bool SetPlayerResourceManager(ResourceManager* player_resource_manager) {
   return true;
 }
 
-entt::entity CreateEnemy(entt::registry& registry, PositionType x,
-                         PositionType y) {
+entt::entity CreateEnemy(entt::registry& registry, ResourceManager* rm,
+                         PositionType x, PositionType y) {
   entt::entity e = registry.create();
+  registry.emplace<ZombieAI>(e);
   registry.emplace<Position>(e, x, y);
   registry.emplace<Physics>(e, 0, 0, 0, 0);
   registry.emplace<Renderable>(e, (ALLEGRO_BITMAP*)NULL, 0, 0);
+  registry.emplace<ZombieAnimation>(e, rm, 0, 0);
   return e;
+}
+
+bool SetZombieResourceManager(ResourceManager* zombie_resource_manager) {
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalkb.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk2b.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk3b.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk4b.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk5b.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk6b.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk2.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk3.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk4.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk5.bmp");
+  zombie_resource_manager->LoadBitmapWithAlpha("zombiewalk6.bmp");
+  return true;
 }
