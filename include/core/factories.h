@@ -5,9 +5,9 @@
 
 #include "utils/types.h"
 
-entt::entity createPlayer(entt::registry& registry, PositionType x,
+entt::entity CreatePlayer(entt::registry& registry, PositionType x,
                           PositionType y);
-entt::entity createEnemy(entt::registry& registry, PositionType x,
+entt::entity CreateEnemy(entt::registry& registry, PositionType x,
                          PositionType y);
 
 #endif  // CORE_FACTORIES_H

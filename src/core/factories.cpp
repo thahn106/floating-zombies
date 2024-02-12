@@ -6,7 +6,7 @@
 #include "comp/position.h"
 #include "utils/types.h"
 
-entt::entity createPlayer(entt::registry& registry, PositionType x,
+entt::entity CreatePlayer(entt::registry& registry, PositionType x,
                           PositionType y) {
   entt::entity e = entt::entity();
   registry.emplace<Position>(e, x, y);
@@ -14,7 +14,7 @@ entt::entity createPlayer(entt::registry& registry, PositionType x,
   return e;
 }
 
-entt::entity createEnemy(entt::registry& registry, PositionType x,
+entt::entity CreateEnemy(entt::registry& registry, PositionType x,
                          PositionType y) {
   entt::entity e = entt::entity();
   registry.emplace<Position>(e, x, y);
