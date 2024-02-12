@@ -10,6 +10,8 @@ class Game {
 
  private:
   entt::registry registry;
+
+  void SetInitialEnemies();
 };
 
 #endif  // CORE_GAME_H
