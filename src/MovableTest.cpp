@@ -8,6 +8,7 @@
 #include "Movable.h"
 #include "Player.h"
 #include "allegro.h"
+#include "core/app.h"
 #include "time.h"
 #include "utils.h"
 
@@ -25,6 +26,12 @@ void update_key(ALLEGRO_KEYBOARD_STATE &key, bool *keyboard_state) {
   for (int i = 0; i < ALLEGRO_KEY_MAX; i++) {
     keyboard_state[i] = al_key_down(&key, i);
   }
+}
+
+int launch_app(int argc, char **argv) {
+  App app;
+  app.run();
+  return 0;
 }
 
 int real_main(int argc, char **argv) {
@@ -403,4 +410,6 @@ void setEnemies(Enemy *enemies[50], ALLEGRO_BITMAP *buffer, Player *c) {
   i++;
 }
 
-int main(int argc, char **argv) { return al_run_main(argc, argv, real_main); }
+// int main(int argc, char **argv) { return al_run_main(argc, argv, real_main);
+// }
+int main(int argc, char **argv) { return al_run_main(argc, argv, launch_app); }

@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
 
 #include "allegro.h"
 #include "core/game.h"
@@ -21,10 +22,19 @@ void App::run() {
   ALLEGRO_DISPLAY* display = al_create_display(800, 600);
   ALLEGRO_FONT* font = al_create_builtin_font();
 
+  std::cout << "Allegro initialized" << std::endl;
+
   Game game;
   game.init();
 
-  while (true) {
+  std::cout << "Game initialized" << std::endl;
+
+  for (int i = 0; i < 5; i++) {
+    if (!game.update()) break;
+    al_rest(1);
+  }
+
+  while (false) {
     if (!game.update()) break;
     al_rest(0.016);  // TODO: fix implementation later
   }
