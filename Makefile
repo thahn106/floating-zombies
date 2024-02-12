@@ -44,9 +44,9 @@ CXX  = g++ -std=c++17
 CC   = gcc
 
 # Flags
-ALLEGRO_DIR = $(CURDIR)/allegro5
+ALLEGRO_DIR = vendor/allegro5
 LIBS =  -L"$(ALLEGRO_DIR)/lib" -L"$(ALLEGRO_DIR)/bin"
-CXXINCS = -I"$(CURDIR)/allegro5/include"
+CXXINCS = -I"$(ALLEGRO_DIR)/include"
 WINLDFLAGS= -lallegro -lallegro_main -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_acodec -lallegro_image -lallegro_color
 LDFLAGS=$(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 allegro_image-5 allegro_color-5 --libs --cflags)
 
@@ -63,13 +63,17 @@ endif
 SRC_DIR := src
 OBJ_DIR := obj
 BIN_DIR := bin
-DLL_DIR := allegro5\bin
+
+# using windows copy utility requires backslashes
+# TODO: find OS-agnostic solution
+DLL_DIR := vendor\allegro5\bin
+DLL := $(wildcard $(DLL_DIR)/*.dll)
 
 EXE := $(BIN_DIR)/Explosions
 SRC := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-DLL := $(wildcard $(DLL_DIR)/*.dll)
+
 
 CPPFLAGS := -Iinclude -MMD -MP
 CFLAGS   := -Wall
