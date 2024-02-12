@@ -1,3 +1,5 @@
+#include "sys/render.h"
+
 #include <entt/entity/registry.hpp>
 
 #include "allegro.h"

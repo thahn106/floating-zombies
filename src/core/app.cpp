@@ -1,8 +1,9 @@
+#include "core/app.h"
+
 #include <stdlib.h>
 #include <time.h>
 
 #include "allegro.h"
-#include "core/app.h"
 #include "core/game.h"
 
 void App::run() {
