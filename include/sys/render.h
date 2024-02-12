@@ -3,6 +3,6 @@
 
 #include <entt/entity/registry.hpp>
 
-void render(entt::registry& registry) {}
+void render(entt::registry& registry);
 
 #endif  // SYS_RENDER_H

@@ -48,7 +48,7 @@ CPPFLAGS := -Iinclude -MMD -MP
 CFLAGS   := -Wall
 CXXINCS  :=
 CXXINCS  += -I"vendor/allegro5/include"
-CXXINCS  += -I"vendor/entt/"
+CXXINCS  += -I"vendor/"
 
 
 LIBS       := -L"vendor/allegro5/lib"
@@ -57,21 +57,26 @@ WINLDFLAGS := -lallegro -lallegro_main -lallegro_font -lallegro_audio -lallegro_
 LDFLAGS    := -Llib $(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 allegro_image-5 allegro_color-5 --libs --cflags)
 
 
-TARGETNAME=Explosions
+TARGETNAME=GameLauncher
 
 # OS specific settings
-FLAGS:=
+FLAGS =
+MKDIR =
 ifeq ($(OS),Windows_NT)
 	FLAGS += $(WINLDFLAGS) $(LIBS)
+	MKDIR += mkdir $(subst /,\,$@)
 else
 	FLAGS += $(LDFLAGS) $(LIBS)
+	MKDIR += mkdir -p $@
 endif
 
 cc-compile = $(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXINCS) -c $< -o $@
 cc-link    = $(CXX)  $^ $(LDLIBS) -o $@ $(FLAGS)
 
 SRC_DIR := src
+SRC_SUB_DIR := $(patsubst %/,%,$(sort $(dir $(wildcard src/*/))))
 OBJ_DIR := obj
+OBJ_SUB_DIR := $(addprefix $(OBJ_DIR)/, $(SRC_SUB_DIR:$(SRC_DIR)/%=%))
 BIN_DIR := bin
 
 # using windows copy utility requires backslashes
@@ -79,8 +84,9 @@ BIN_DIR := bin
 DLL_DIR := vendor\allegro5\bin
 DLL := $(wildcard $(DLL_DIR)/*.dll)
 
-EXE := $(BIN_DIR)/Explosions
+EXE := $(BIN_DIR)/$(TARGETNAME)
 SRC := $(wildcard $(SRC_DIR)/*.cpp)
+SRC += $(wildcard $(SRC_DIR)/*/*.cpp)
 OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 .PHONY: all clean run
@@ -96,14 +102,18 @@ endif
 $(EXE): $(OBJ) | $(BIN_DIR)
 	$(cc-link)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR) $(OBJ_SUB_DIR)
 	$(cc-compile)
 
-$(BIN_DIR) $(OBJ_DIR):
-	$(MKDIR) $@
+$(BIN_DIR) $(OBJ_DIR) $(OBJ_SUB_DIR):
+	$(MKDIR)
 
 clean:
 	$(RM) $(BIN_DIR) $(OBJ_DIR)
 
 run: all
 	$(EXE)
+
+test:
+	@echo $(SRC_SUB_DIR)
+	@echo $(OBJ_SUB_DIR)
