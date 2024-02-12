@@ -30,6 +30,12 @@ class Player : public Creature {
   int floorHeight;
   bool resetFloorHeight;
 
+  bool airborn;
+  bool walkleft;
+  bool walkright;
+  bool crouching;
+  bool idle;
+
  private:
   ALLEGRO_BITMAP *pics[34];
 };

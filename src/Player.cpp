@@ -66,9 +66,14 @@ void Player::move() {
   } else {
     jumpCount = 0;
   }
+  airborn = false;
+  walkleft = false;
+  walkright = false;
+  crouching = false;
+  idle = false;
+
   if (key[ALLEGRO_KEY_UP]) {
-    if (direction == 1) pic = pics[jumpCount % 4 + 24];
-    if (direction == 2) pic = pics[jumpCount % 4 + 7];
+    airborn = true;
   }
   if ((key[ALLEGRO_KEY_RIGHT]) && (!key[ALLEGRO_KEY_UP])) {
     pic = pics[walkCount % 6 + 11];
@@ -82,16 +87,39 @@ void Player::move() {
   }
   if ((key[ALLEGRO_KEY_DOWN]) && (!key[ALLEGRO_KEY_LEFT]) &&
       (!key[ALLEGRO_KEY_RIGHT]) && (!key[ALLEGRO_KEY_UP])) {
-    if (direction == 2) pic = pics[3];
-    if (direction == 1) pic = pics[20];
+    crouching = true;
   }
   if ((!key[ALLEGRO_KEY_LEFT]) && (!key[ALLEGRO_KEY_RIGHT]) &&
       (!key[ALLEGRO_KEY_UP]) && (!key[ALLEGRO_KEY_DOWN])) {
+    idle = true;
+  }
+
+  if (airborn) {
+    if (direction == 2) pic = pics[jumpCount % 4 + 7];
+    if (direction == 1) pic = pics[jumpCount % 4 + 24];
+  }
+
+  if (walkleft) {
+    pic = pics[walkCount % 6 + 28];
+    if (slowWalk % 2 == 0) walkCount++;
+    slowWalk++;
+  }
+  if (walkright) {
+    pic = pics[walkCount % 6 + 11];
+    if (slowWalk % 2 == 0) walkCount++;
+    slowWalk++;
+  }
+  if (crouching) {
+    if (direction == 2) pic = pics[3];
+    if (direction == 1) pic = pics[20];
+  }
+  if (idle) {
     if (direction == 1) pic = pics[21 + idleCount % 3];
     if (direction == 2) pic = pics[4 + idleCount % 3];
     if (idleRest % 4 == 0) idleCount++;
     idleRest++;
   }
+
   if (locationY + hgt >= floorHeight) {
     yVel = -0.2 * yVel;
     locationY = floorHeight - hgt;
