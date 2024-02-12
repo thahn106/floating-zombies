@@ -29,9 +29,9 @@ void App::run() {
 
   std::cout << "Game initialized" << std::endl;
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 200; i++) {
     if (!game.update()) break;
-    al_rest(1);
+    al_rest(0.03);
   }
 
   while (false) {

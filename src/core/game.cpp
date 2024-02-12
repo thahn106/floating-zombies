@@ -9,6 +9,7 @@
 #include "sys/animate_player.h"
 #include "sys/animate_zombie.h"
 #include "sys/movement.h"
+#include "sys/move_zombie.h"
 #include "sys/render.h"
 
 void Game::init() {
@@ -26,6 +27,7 @@ void Game::init() {
 // Called once per frame
 // Order of systems is important
 bool Game::update() {
+  MoveZombies(registry);
   update_physics(registry, 1);
   animate_player(registry);
   AnimateZombie(registry);
