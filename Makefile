@@ -44,21 +44,31 @@ CXX  = g++ -std=c++17
 CC   = gcc
 
 # Flags
-ALLEGRO_DIR = vendor/allegro5
-LIBS =  -L"$(ALLEGRO_DIR)/lib" -L"$(ALLEGRO_DIR)/bin"
-CXXINCS = -I"$(ALLEGRO_DIR)/include"
-WINLDFLAGS= -lallegro -lallegro_main -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_acodec -lallegro_image -lallegro_color
-LDFLAGS=$(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 allegro_image-5 allegro_color-5 --libs --cflags)
+CPPFLAGS := -Iinclude -MMD -MP
+CFLAGS   := -Wall
+CXXINCS  :=
+CXXINCS  += -I"vendor/allegro5/include"
+CXXINCS  += -I"vendor/entt/"
+
+
+LIBS       := -L"vendor/allegro5/lib"
+LDLIBS     := -lm
+WINLDFLAGS := -lallegro -lallegro_main -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_acodec -lallegro_image -lallegro_color
+LDFLAGS    := -Llib $(shell pkg-config allegro-5 allegro_main-5 allegro_font-5 allegro_audio-5 allegro_primitives-5 allegro_acodec-5 allegro_image-5 allegro_color-5 --libs --cflags)
+
 
 TARGETNAME=Explosions
 
 # OS specific settings
 FLAGS:=
 ifeq ($(OS),Windows_NT)
-	FLAGS += $(WINLDFLAGS) $(CXXINCS) $(LIBS)
+	FLAGS += $(WINLDFLAGS) $(LIBS)
 else
-	FLAGS += $(LDFLAGS)
+	FLAGS += $(LDFLAGS) $(LIBS)
 endif
+
+cc-compile = $(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXINCS) -c $< -o $@
+cc-link    = $(CXX)  $^ $(LDLIBS) -o $@ $(FLAGS)
 
 SRC_DIR := src
 OBJ_DIR := obj
@@ -73,13 +83,6 @@ EXE := $(BIN_DIR)/Explosions
 SRC := $(wildcard $(SRC_DIR)/*.cpp)
 OBJ := $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
-
-
-CPPFLAGS := -Iinclude -MMD -MP
-CFLAGS   := -Wall
-LDFLAGS  := -Llib
-LDLIBS   := -lm
-
 .PHONY: all clean run
 
 all: $(EXE)
@@ -91,10 +94,10 @@ else
 endif
 
 $(EXE): $(OBJ) | $(BIN_DIR)
-	$(CXX)  $^ $(LDLIBS) -o $@ $(FLAGS)
+	$(cc-link)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	$(CXX) $(CPPFLAGS) $(CFLAGS) $(CXXINCS) -c $< -o $@ $(FLAGS)
+	$(cc-compile)
 
 $(BIN_DIR) $(OBJ_DIR):
 	$(MKDIR) $@
