@@ -3,6 +3,8 @@
 
 typedef float TimeType;
 
+typedef int ScreenCoordType;
+
 typedef int PositionType;
 typedef int PhysicsType;
 
